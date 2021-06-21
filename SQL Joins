@@ -1,0 +1,38 @@
+The request was top ten countries by customer:
+
+
+SELECT D.country_id,COUNT(customer_id)AS number_of_customers,country
+FROM customer A
+INNER JOIN address B on A.address_id = B.address_id
+INNER JOIN city C on B.city_id = C.city_id
+INNER JOIN country D on C.country_id = D.country_id
+GROUP BY D.country_id,country
+ORDER BY number_of_customers DESC
+LIMIT 10
+
+
+The request was top 10 cities within the top 10 countries:
+
+SELECT COUNT(customer_id),C.city,D.country
+FROM customer A 
+INNER JOIN address B on A.address_id = B.address_id
+INNER JOIN city C on B.city_id = C.city_id
+INNER JOIN country D on C. country_id = D.country_id
+WHERE D.country_id IN(44,23,103,50,60,15,80,75,97,45)
+GROUP BY C.city,country
+ORDER BY COUNT(customer_id) DESC
+LIMIT 10
+
+The request is for the top 5 customers by payment made to Rockbuster:
+
+SELECT SUM (amount), B.customer_id,first_name,last_name,country,city
+FROM payment A
+INNER JOIN rental B on A.rental_id =B.rental_id
+INNER JOIN customer C on B.customer_id = C.customer_id
+INNER JOIN address D on C.address_id = D.address_id
+INNER JOIN city E on D.city_id = E.city_id
+INNER JOIN country F on E.country_id = F.country_id
+WHERE city IN ('Aurora','Atlixco','Xintai','Adoni','Dhule','Dhulia','Kurashiki','Pingxiang','Sivas','Celaya','So_Leopoldo')
+GROUP BY B.customer_id,first_name,last_name,country,city
+ORDER BY SUM(amount) DESC
+LIMIT 5
